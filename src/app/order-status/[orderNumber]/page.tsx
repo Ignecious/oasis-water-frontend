@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TopBar from '@/components/TopBar';
 import StatusBadge from '@/components/StatusBadge';
 import { useOrders } from '@/context/OrderContext';
 import { OrderStatus } from '@/types';
@@ -20,6 +21,7 @@ export default function OrderDetailPage() {
   if (!order) {
     return (
       <div className="flex flex-col min-h-screen">
+        <TopBar />
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center px-4 py-16 text-center">
           <h1 className="text-2xl font-bold text-oasis-navy mb-2">Order Not Found</h1>
@@ -37,6 +39,7 @@ export default function OrderDetailPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <TopBar />
       <Header />
       <main className="flex-1 max-w-2xl mx-auto px-4 py-10 w-full">
         <Link href="/order-status" className="flex items-center gap-1 text-sm text-gray-500 hover:text-oasis-navy mb-6">

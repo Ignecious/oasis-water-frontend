@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TopBar from '@/components/TopBar';
 import CartItemRow from '@/components/CartItemRow';
 import EmptyState from '@/components/EmptyState';
 import { useCart } from '@/context/CartContext';
@@ -17,6 +18,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="flex flex-col min-h-screen">
+        <TopBar />
         <Header />
         <main className="flex-1">
           <EmptyState
@@ -34,6 +36,7 @@ export default function CartPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <TopBar />
       <Header />
       <main className="flex-1 max-w-4xl mx-auto px-4 py-10 w-full">
         <h1 className="text-2xl font-bold text-oasis-navy mb-6">Your Cart</h1>

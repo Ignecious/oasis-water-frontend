@@ -1,85 +1,80 @@
 'use client';
 
 import { useState } from 'react';
-import { ShoppingCart, Plus, Minus } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 
-const categoryColors: Record<string, string> = {
-  water: 'bg-blue-100 text-blue-700',
-  ice: 'bg-cyan-100 text-cyan-700',
-  dispensers: 'bg-indigo-100 text-indigo-700',
-  accessories: 'bg-purple-100 text-purple-700',
+const categoryBgColors: Record<string, string> = {
+  water: 'bg-gradient-to-br from-sky-100 to-sky-200',
+  ice: 'bg-gradient-to-br from-slate-800 to-slate-900',
+  dispensers: 'bg-gradient-to-br from-blue-50 to-blue-100',
+  accessories: 'bg-gradient-to-br from-purple-50 to-purple-100',
+};
+
+const categoryTextColors: Record<string, string> = {
+  water: 'text-sky-400',
+  ice: 'text-white',
+  dispensers: 'text-blue-400',
+  accessories: 'text-purple-400',
 };
 
 interface ProductCardProps {
   product: Product;
+  badge?: 'POPULAR' | 'BEST VALUE' | null;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, badge }: ProductCardProps) {
   const { addToCart, validateMinimumQuantity } = useCart();
-  const [qty, setQty] = useState(product.minOrderQty || 1);
-  const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
+    const qty = product.minOrderQty || 1;
     const validation = validateMinimumQuantity(product, qty);
-    if (!validation.isValid) {
-      setError(validation.message || 'Invalid quantity');
-      return;
-    }
+    if (!validation.isValid) return;
     addToCart(product, qty);
     setAdded(true);
-    setError(null);
     setTimeout(() => setAdded(false), 1500);
   };
 
-  const decrease = () => {
-    const next = qty - (product.qtyIncrement || 1);
-    setQty(Math.max(product.minOrderQty || 1, next));
-  };
-
-  const increase = () => {
-    setQty(qty + (product.qtyIncrement || 1));
-  };
-
-  const colorClass = categoryColors[product.category] || 'bg-gray-100 text-gray-700';
+  const bgClass = categoryBgColors[product.category] || 'bg-gray-100';
+  const textClass = categoryTextColors[product.category] || 'text-gray-400';
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
-      {/* Image placeholder */}
-      <div className={`h-40 flex items-center justify-center ${colorClass} text-5xl font-bold`}>
-        {product.name.charAt(0)}
-      </div>
-      <div className="p-4 flex flex-col flex-1">
-        <span className={`text-xs font-medium px-2 py-0.5 rounded-full w-fit mb-2 ${colorClass}`}>
-          {product.category}
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow flex flex-col relative">
+      {/* Badge */}
+      {badge && (
+        <span className="absolute top-3 right-3 z-10 bg-oasis-cyan text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+          {badge}
         </span>
-        <h3 className="font-semibold text-oasis-navy text-sm mb-1">{product.name}</h3>
-        <p className="text-xs text-gray-500 mb-1">{product.size}</p>
-        <p className="text-xs text-gray-400 mb-3 flex-1 line-clamp-2">{product.description}</p>
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-lg font-bold text-oasis-navy">${product.price.toFixed(2)}</span>
-          {product.minOrderQty && (
-            <span className="text-xs text-gray-400">MOQ: {product.minOrderQty}</span>
-          )}
+      )}
+
+      {/* Image placeholder */}
+      <div className={`h-48 flex items-center justify-center ${bgClass} relative`}>
+        <span className={`text-7xl font-bold ${textClass} opacity-50`}>
+          {product.name.charAt(0)}
+        </span>
+      </div>
+
+      <div className="p-4 flex flex-col flex-1">
+        {/* Name & Price Row */}
+        <div className="flex items-start justify-between gap-2 mb-1">
+          <h3 className="font-bold text-oasis-navy text-sm leading-tight">{product.name}</h3>
+          <span className="text-base font-bold text-oasis-cyan whitespace-nowrap">${product.price.toFixed(2)}</span>
         </div>
-        <div className="flex items-center gap-2 mb-3">
-          <button onClick={decrease} className="w-8 h-8 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50">
-            <Minus size={14} />
-          </button>
-          <span className="w-8 text-center text-sm font-medium">{qty}</span>
-          <button onClick={increase} className="w-8 h-8 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50">
-            <Plus size={14} />
-          </button>
-        </div>
-        {error && <p className="text-xs text-red-500 mb-2">{error}</p>}
+
+        {/* Description */}
+        <p className="text-xs text-gray-400 mb-4 flex-1 line-clamp-2">
+          {product.size} - {product.description}
+        </p>
+
+        {/* Add to Cart Button */}
         <button
           onClick={handleAdd}
-          className={`w-full py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
+          className={`w-full py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-colors ${
             added
               ? 'bg-green-500 text-white'
-              : 'bg-oasis-cyan text-oasis-navy hover:bg-oasis-cyan/90'
+              : 'bg-oasis-navy text-white hover:bg-oasis-navy/90'
           }`}
         >
           <ShoppingCart size={16} />

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TopBar from '@/components/TopBar';
 import { useCart } from '@/context/CartContext';
 import { useAddress } from '@/context/AddressContext';
 import { useOrders } from '@/context/OrderContext';
@@ -74,6 +75,7 @@ export default function CheckoutPage() {
   if (confirmedOrder) {
     return (
       <div className="flex flex-col min-h-screen">
+        <TopBar />
         <Header />
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="bg-white rounded-2xl shadow-md p-10 text-center max-w-md w-full">
@@ -107,6 +109,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <TopBar />
       <Header />
       <main className="flex-1 max-w-2xl mx-auto px-4 py-10 w-full">
         <h1 className="text-2xl font-bold text-oasis-navy mb-6">Checkout</h1>

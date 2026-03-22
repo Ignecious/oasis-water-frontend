@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TopBar from '@/components/TopBar';
 import ProductCard from '@/components/ProductCard';
 import { products } from '@/data/products';
 
@@ -23,6 +24,7 @@ export default function ProductsPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <TopBar />
       <Header />
       <main className="flex-1 max-w-7xl mx-auto px-4 py-10 w-full">
         <h1 className="text-2xl font-bold text-oasis-navy mb-6">Our Products</h1>
