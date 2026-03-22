@@ -41,7 +41,7 @@ export const products: Product[] = [
     featured: true,
     minOrderQty: 2,
     qtyIncrement: 2,
-    unitType: '6-pack',
+    unitType: 'bottle',
   },
   {
     id: 'p4',
