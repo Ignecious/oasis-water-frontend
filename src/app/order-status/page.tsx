@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TopBar from '@/components/TopBar';
 import { Search } from 'lucide-react';
 
 export default function OrderStatusPage() {
@@ -19,6 +20,7 @@ export default function OrderStatusPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <TopBar />
       <Header />
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="bg-white rounded-2xl shadow-md p-10 max-w-md w-full text-center">
